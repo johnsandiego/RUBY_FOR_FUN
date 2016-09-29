@@ -1,0 +1,1 @@
+# RUBY_FOR_FUN
