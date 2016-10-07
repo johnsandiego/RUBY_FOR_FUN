@@ -1,0 +1,2 @@
+print "Hello, World"
+string name = "john san diego"
