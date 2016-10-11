@@ -1,2 +1,2 @@
-print "Hello, World"
-string name = "john san diego"
+foo & !( a2 > bar & w < foo | x < y)
+A1 & B1 | A2 & B1 | (! C | A <> B )

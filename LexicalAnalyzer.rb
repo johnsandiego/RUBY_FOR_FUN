@@ -1,50 +1,84 @@
 #!/usr/bin/ruby -w
 
 
-filename = ARGV.first
-txt = open(filename)
-
-puts "Here's your file #{filename}:"
-#print txt.read
-
 storage = []
-file = txt.read
+class LexicalAnalyzer
+	def Openfile
+	filename = ARGV.first
+	txt = open(filename)
 
-puts "file has #{file}"
-token1 = file.split("")
+	puts "Here's your file #{filename}:"
+	#print txt.read
 
-puts token1.join
-
-
-def lexDatabase(lex)
 	
-	cal = lex.join
-	if cal.include? "print"
-		puts "print is an Identifier"
-	elsif cal.include? """"
-		puts "String"
-	elsif cal.include? "+"
-		puts "Addition"
-	elsif lex == "-"
-		puts "Subtraction"
-	elsif lex == "*"
-		puts "Multiplication"
-	elsif  lex == "/"
-		puts "Division"
-	else 
-		puts "Nothing in storage"
+	file = txt.read
+
+	puts "file has #{file}"
+	token1 = file.split(" ")
+
+	return token1
 	end
 end
 
-token1.each do |token|
+def numeric?(lookAhead)
+  lookAhead =~ /[[:digit:]]/
+end
+def letter?(lookAhead)
+  lookAhead =~ /[[:alpha:]]/
+end
 
+c = LexicalAnalyzer.new
+lexer = c.Openfile()
+puts "lexeme: #{lexer.join}"
+$count = 0
+lexer.each do |token|
+	
 	storage.push(token)
-	if token == " "
-		puts "Space"
-		lexDatabase(storage)
-		storage = []
-		puts "storage has #{storage}"
+	if letter?(token)
+		f = token.split''
+		f.each do |s|
+			if s.include? "("
+				puts "LEFT_PAREN: #{s}"
+			end
+		end
+		f.delete("(")
+		f.delete(")")
+		print "ID: #{f.join}"
+		puts 
+	elsif numeric?(token)
+		f = token.split''
+		f.each do |s|
+			if s.include? ")"
+				puts "RIGHT_PAREN: #{s}"
+			end
+		end
+		f.delete(")")
+		puts "NUMBER: #{f.join}"
+	elsif token.include? "+"
+		puts "ADD_OP: #{token}"
+	elsif token.include? "-"
+		print "SUB_OP: #{token}"
+	elsif token.include? "*"
+		print "MULT_OP: #{token}"
+	elsif token.include? "/"
+		puts "DIV_OP: #{token}"
+	elsif token.include? " "
+		puts "Whitespace"
+	elsif token.include? "="
+		puts "ASSIGN_OP: #{token}"
+	elsif token.include? "!"
+		f = token.split''
+		f.delete("(")
+		puts "NOT_OP: #{f.join}"
+	elsif token.include? "&"
+		puts "AND_OP: #{token}"
+	elsif token.include? "<"
+		puts "LESS_OP: #{token}"
+	elsif token.include? ">"
+		puts "GREATER_OP: #{token}"
+	elsif token.include? "|"
+		puts "OR_OP: #{token}"
+	elsif token.include? "<>"
+		puts "COMPARE_OP: #{token}"
 	end
-
 end
-
