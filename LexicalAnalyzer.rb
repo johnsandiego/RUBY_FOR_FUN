@@ -1,5 +1,8 @@
 #!/usr/bin/ruby -w
-
+#Author: John San Diego
+#COS 301: Programming Language
+#Project 2: Write a Lexical Analyzer
+#
 
 storage = []
 class LexicalAnalyzer
@@ -30,7 +33,6 @@ end
 c = LexicalAnalyzer.new
 lexer = c.Openfile()
 puts "lexeme: #{lexer.join}"
-$count = 0
 lexer.each do |token|
 	
 	storage.push(token)
@@ -40,11 +42,13 @@ lexer.each do |token|
 			if s.include? "("
 				puts "LEFT_PAREN: #{s}"
 			end
+			if s.include? ")"
+				puts "RIGHT_PAREN: #{s}"
+			end
 		end
 		f.delete("(")
 		f.delete(")")
-		print "ID: #{f.join}"
-		puts 
+		puts "ID: #{f.join}"
 	elsif numeric?(token)
 		f = token.split''
 		f.each do |s|
@@ -68,6 +72,15 @@ lexer.each do |token|
 		puts "ASSIGN_OP: #{token}"
 	elsif token.include? "!"
 		f = token.split''
+		f.each do |s|
+			if s.include? "("
+				puts "LEFT_PAREN: #{s}"
+			end
+			if s.include? ")"
+				puts "RIGHT_PAREN: #{s}"
+			end
+		end
+		f.delete(")")
 		f.delete("(")
 		puts "NOT_OP: #{f.join}"
 	elsif token.include? "&"
@@ -80,5 +93,9 @@ lexer.each do |token|
 		puts "OR_OP: #{token}"
 	elsif token.include? "<>"
 		puts "COMPARE_OP: #{token}"
+	elsif token.include? "("
+		puts "LEFT_PAREN: #{token}"
+	elsif token.include? ")"
+		puts "RIGHT_PAREN: #{token}"
 	end
 end
